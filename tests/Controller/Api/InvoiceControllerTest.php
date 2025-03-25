@@ -4,10 +4,10 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class Api/InvoiceControllerTest extends WebTestCase{
+final class InvoiceControllerTest extends WebTestCase{
     public function testIndex(): void
     {
-        $client = static::createClient();
+        $client = InvoiceControllerTest::createClient();
         $client->request('GET', '/api/invoice');
 
         self::assertResponseIsSuccessful();

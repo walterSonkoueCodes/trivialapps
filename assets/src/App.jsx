@@ -8,6 +8,8 @@ import { ThemeProvider as AppThemeProvider, useTheme } from './context/ThemeCont
 import { createAppTheme } from './theme';
 import GlobalStyles from './components/ui/GlobalStyles';
 import AuthGuard from "./components/auth/AuthGuard";
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import createTheme from './theme';
 
 // Layouts
 const PublicLayout = React.lazy(() => import('./components/layout/PublicLayout'));
@@ -38,40 +40,41 @@ if (process.env.NODE_ENV === 'development') {
 
 function AppContent() {
     const { darkMode } = useTheme();
-    const theme = createAppTheme(darkMode);
+    const theme = createTheme(darkMode);
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <GlobalStyles />
-
-            <Suspense fallback={<LoadingFallback />}>
-                <BrowserRouter>
-                    <Routes>
-                        {/* Routes Publiques */}
-                        <Route element={<PublicLayout />}>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/services" element={<ServicesPage />} />
-                            <Route path="/experts" element={<ExpertsPage />} />
-                            <Route path="/legal" element={<LegalPage />} />
-                        </Route>
-
-                        {/* Routes Protégées */}
-                        <Route element={<AuthGuard />}>
-                            <Route element={<DashboardLayout />}>
-                                <Route path="/dashboard" element={<DashboardHome />} />
-                                <Route path="/dashboard/projects" element={<ProjectsPage />} />
-                                <Route path="/dashboard/invoices" element={<InvoicesPage />} />
-                                <Route path="/dashboard/orders/new" element={<OrderWizardPage />} />
+            <MuiThemeProvider theme={createTheme}>
+                <CssBaseline />
+                <GlobalStyles />
+                <Suspense fallback={<LoadingFallback />}>
+                    <BrowserRouter>
+                        <Routes>
+                            {/* Routes Publiques */}
+                            <Route element={<PublicLayout />}>
+                                <Route path="/" element={<HomePage />} />
+                                <Route path="/login" element={<LoginPage />} />
+                                <Route path="/services" element={<ServicesPage />} />
+                                <Route path="/experts" element={<ExpertsPage />} />
+                                <Route path="/legal" element={<LegalPage />} />
                             </Route>
-                        </Route>
 
-                        {/* Gestion des erreurs 404 */}
-                        <Route path="*" element={<NotFoundPage />} />
-                    </Routes>
-                </BrowserRouter>
-            </Suspense>
+                            {/* Routes Protégées */}
+                            <Route element={<AuthGuard />}>
+                                <Route element={<DashboardLayout />}>
+                                    <Route path="/dashboard" element={<DashboardHome />} />
+                                    <Route path="/dashboard/projects" element={<ProjectsPage />} />
+                                    <Route path="/dashboard/invoices" element={<InvoicesPage />} />
+                                    <Route path="/dashboard/orders/new" element={<OrderWizardPage />} />
+                                </Route>
+                            </Route>
+
+                            {/* Gestion des erreurs 404 */}
+                            <Route path="*" element={<NotFoundPage />} />
+                        </Routes>
+                    </BrowserRouter>
+                </Suspense>
+            </MuiThemeProvider>
         </ThemeProvider>
     );
 }

@@ -11,6 +11,10 @@
         "buffer": "^6.0.3",
         "core-js": "^3.38.0",
         "css-loader": "^7.1.2",
+        "eslint": "^9.23.0",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "eslint-plugin-mui": "^0.1.1",
+        "eslint-plugin-react": "^7.37.4",
         "miragejs": "^0.1.48",
         "postcss": "^8.5.3",
         "postcss-loader": "^8.1.1",
@@ -44,12 +48,18 @@
         "axios": "^1.8.4",
         "formik": "^2.4.6",
         "framer-motion": "^12.5.0",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
+        "json5": "^2.2.3",
+        "prop-types": "^15.8.1",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
         "react-redux": "^9.2.0",
         "react-responsive-carousel": "^3.2.23",
         "react-router-dom": "^7.4.0",
         "recharts": "^2.15.1",
         "yup": "^1.6.1"
+    },
+    "resolutions": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     }
 }

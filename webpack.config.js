@@ -1,7 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
+const webpack = require('webpack');
 
-// Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
@@ -9,73 +8,71 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
-    .enableReactPreset() // Active le preset React
-    .splitEntryChunks()
     .cleanupOutputBeforeBuild()
-    .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
-    // directory where compiled assets will be stored
-    .setOutputPath('public/build/')
-    // public path used by the web server to access the output path
-    .setPublicPath('/build')
-    // only needed for CDN's or subdirectory deploy
-    //.setManifestKeyPrefix('build/')
 
-    /*
-     * ENTRY CONFIG
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
-     */
+    // Configuration React
+    .enableReactPreset()
     .addEntry('app', './assets/app.js')
 
-    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-    .splitEntryChunks()
-
-    // will require an extra script tag for runtime.js
-    // but, you probably want this, unless you're building a single-page app
-    .enableSingleRuntimeChunk()
-
-    /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
-     */
-    .cleanupOutputBeforeBuild()
-    .enableBuildNotifications()
-    .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(Encore.isProduction())
-
-    // configure Babel
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/a-babel-plugin');
-    // })
-
-    // enables and configure @babel/preset-env polyfills
+    // Configuration Babel
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
-        config.corejs = '3.38';
+        config.corejs = 3;
     })
 
-    // enables Sass/SCSS support
-    //.enableSassLoader()
+    // Configuration CSS/Sass
+    .enableSassLoader()
+    .enablePostCssLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+    // Optimisations
+    .enableSingleRuntimeChunk()
+    .splitEntryChunks()
 
-    // uncomment if you use React
-    //.enableReactPreset()
-
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
-
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    // Configuration des assets
+    .configureImageRule({
+        type: 'asset',
+        maxSize: 4 * 1024 // 4kb
+    })
+    .configureDefinePlugin(options => {
+        options['process.env'] = {
+            NODE_ENV: JSON.stringify(Encore.isProduction() ? 'production' : 'development'),
+            REACT_APP_API_URL: JSON.stringify(Encore.isProduction() ? 'https://votre-domaine.com/api' : 'http://localhost:8000/api')
+        };
+    })
+    .addPlugin(new webpack.ProvidePlugin({
+        process: 'process/browser',
+    }))
+    .configureFontRule({
+        type: 'asset',
+        maxSize: 4 * 1024 // 4kb
+    })
+    .configureDevServerOptions(options => {
+        options.server = {
+            type: 'https',
+            options: {
+                key: './localhost-key.pem',
+                cert: './localhost.pem'
+            }
+        };
+        options.allowedHosts = 'all';
+    })
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+
+// Ajout du fallback pour "process"
+config.resolve = config.resolve || {};
+config.resolve.fallback = {
+    ...(config.resolve.fallback || {}),
+    process: require.resolve('process/browser')
+};
+
+// Ajout explicite d'un alias pour "process/browser"
+config.resolve.alias = {
+    ...(config.resolve.alias || {}),
+    'process/browser': require.resolve('process/browser')
+};
+
+module.exports = config;

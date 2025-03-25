@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ExpertRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ExpertRepository::class)]
 class Expert
@@ -13,6 +14,7 @@ class Expert
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['invoice:read'])]
     #[ORM\Column(length: 255)]
     private ?string $fullName = null;
 

@@ -1,14 +1,13 @@
 <?php
 
+// src/Repository/ExpertRepository.php
+
 namespace App\Repository;
 
 use App\Entity\Expert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Expert>
- */
 class ExpertRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +15,20 @@ class ExpertRepository extends ServiceEntityRepository
         parent::__construct($registry, Expert::class);
     }
 
-    //    /**
-    //     * @return Expert[] Returns an array of Expert objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Expert[]
+     */
+    public function findAllWithSkills(array $skills = []): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->orderBy('e.fullName', 'ASC');
 
-    //    public function findOneBySomeField($value): ?Expert
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if (!empty($skills)) {
+            $qb->andWhere('e.expertise IN (:skills)')
+                ->setParameter('skills', $skills);
+        }
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

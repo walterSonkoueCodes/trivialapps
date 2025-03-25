@@ -2,11 +2,11 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
-use App\Entity\Project;
-use App\Entity\Service;
 use App\Entity\Expert;
 use App\Entity\Invoice;
+use App\Entity\Project;
+use App\Entity\Service;
+use App\Entity\User;
 use App\Enum\InvoiceStatusEnum;
 use App\Enum\StatusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -15,65 +15,110 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    private UserPasswordHasherInterface $passwordHasher;
-
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
-    {
-        $this->passwordHasher = $passwordHasher;
-    }
+    public function __construct(
+        private UserPasswordHasherInterface $passwordHasher
+    ) {}
 
     public function load(ObjectManager $manager): void
     {
-        // Création de services
-        $services = [];
-        foreach (['Site Web', 'App Mobile', 'Design 3D', 'Logo', 'Montage Vidéo'] as $serviceName) {
+        // Création des services
+        $services = [
+            ['name' => 'Site Vitrine', 'description' => 'Création site web vitrine', 'price' => 1500, 'category' => 'web'],
+            ['name' => 'Application Mobile', 'description' => 'Développement app iOS/Android', 'price' => 5000, 'category' => 'mobile'],
+            ['name' => 'Logo Design', 'description' => 'Création identité visuelle', 'price' => 300, 'category' => 'design'],
+        ];
+
+        foreach ($services as $serviceData) {
             $service = new Service();
-            $service->setName($serviceName);
-            $service->setDescription("Description du service $serviceName");
-            $service->setPrice(rand(500, 5000));
-            $service->setCategory("Catégorie générale");
+            $service->setName($serviceData['name'])
+                ->setDescription($serviceData['description'])
+                ->setPrice($serviceData['price'])
+                ->setCategory($serviceData['category']);
             $manager->persist($service);
-            $services[] = $service;
         }
 
-        // Création d'un client
-        $client = new User();
-        $client->setFullName("Jean Dupont");
-        $client->setEmail("jean.dupont@example.com");
-        $client->setRoles(["ROLE_USER"]);
-        $client->setPassword($this->passwordHasher->hashPassword($client, "password123"));
-        $client->setCreatedAt(new \DateTimeImmutable());  // Ajout de la date de création
-        $client->setUpdatedAt(new \DateTimeImmutable());  // Ajout de la date de mise à jour
-        $manager->persist($client);
+        // Création des experts
+        $experts = [
+            ['fullName' => 'Jean Dupont', 'bio' => 'Expert en développement web', 'photoUrl' => 'jean.jpg', 'expertise' => ['PHP', 'Symfony', 'React']],
+            ['fullName' => 'Marie Martin', 'bio' => 'Designer graphique', 'photoUrl' => 'marie.jpg', 'expertise' => ['Photoshop', 'Illustrator', 'UI/UX']],
+        ];
 
-        // Création d'un expert
-        $expert = new Expert();
-        $expert->setFullName("Expert Designer");
-        $expert->setBio("Spécialiste en design 3D et UX/UI");
-        $expert->setPhotoUrl("https://via.placeholder.com/150");
-        $expert->setExpertise(["Design 3D", "Logo"]);
-        $manager->persist($expert);
+        foreach ($experts as $expertData) {
+            $expert = new Expert();
+            $expert->setFullName($expertData['fullName'])
+                ->setBio($expertData['bio'])
+                ->setPhotoUrl($expertData['photoUrl'])
+                ->setExpertise($expertData['expertise']);
+            $manager->persist($expert);
+        }
 
-        // Création d'un projet
-        $project = new Project();
-        $project->setTitle("Refonte du site web");
-        $project->setDescription("Un projet de refonte pour un site e-commerce.");
-        $project->setStatus(StatusEnum::BACKLOG);
-        $project->setClient($client);
-        $project->setCreatedAt(new \DateTimeImmutable());
-        $project->setUpdatedAt(new \DateTimeImmutable());
-        $manager->persist($project);
+        // Création des utilisateurs
+        $admin = new User();
+        $admin->setEmail('admin@trivialapps.net')
+            ->setFullName('Admin System')
+            ->setRoles(['ROLE_ADMIN'])
+            ->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'))
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $manager->persist($admin);
 
-        // Création d'une facture
-        $invoice = new Invoice();
-        $invoice->setNumber("INV-001");
-        $invoice->setClient($client);
-        $invoice->setProject($project);
-        $invoice->setAmount(1200);
-        $invoice->setStatus(InvoiceStatusEnum::PENDING);
-        $invoice->setIssuedAt(new \DateTimeImmutable());
-        $invoice->setDueAt((new \DateTimeImmutable())->modify('+15 days'));
-        $manager->persist($invoice);
+        $client1 = new User();
+        $client1->setEmail('client1@example.com')
+            ->setFullName('Client Premium')
+            ->setRoles(['ROLE_CLIENT'])
+            ->setPassword($this->passwordHasher->hashPassword($client1, 'client123'))
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $manager->persist($client1);
+
+        $client2 = new User();
+        $client2->setEmail('client2@example.com')
+            ->setFullName('Client Standard')
+            ->setRoles(['ROLE_CLIENT'])
+            ->setPassword($this->passwordHasher->hashPassword($client2, 'client123'))
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $manager->persist($client2);
+
+        // Création des projets
+        $project1 = new Project();
+        $project1->setTitle('Site e-commerce')
+            ->setDescription('Création boutique en ligne')
+            ->setStatus(StatusEnum::IN_PROGRESS)
+            ->setClient($client1)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $manager->persist($project1);
+
+        $project2 = new Project();
+        $project2->setTitle('Application mobile')
+            ->setDescription('App de gestion de projet')
+            ->setStatus(StatusEnum::BACKLOG)
+            ->setClient($client2)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $manager->persist($project2);
+
+        // Création des factures
+        $invoice1 = new Invoice();
+        $invoice1->setNumber('FAC-2023-001')
+            ->setClient($client1)
+            ->setProject($project1)
+            ->setAmount(2500)
+            ->setStatus(InvoiceStatusEnum::PAID)
+            ->setIssuedAt(new \DateTimeImmutable('-1 week'))
+            ->setDueAt(new \DateTimeImmutable('+1 month'));
+        $manager->persist($invoice1);
+
+        $invoice2 = new Invoice();
+        $invoice2->setNumber('FAC-2023-002')
+            ->setClient($client2)
+            ->setProject($project2)
+            ->setAmount(1200)
+            ->setStatus(InvoiceStatusEnum::PENDING)
+            ->setIssuedAt(new \DateTimeImmutable())
+            ->setDueAt(new \DateTimeImmutable('+3 weeks'));
+        $manager->persist($invoice2);
 
         $manager->flush();
     }

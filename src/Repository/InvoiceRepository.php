@@ -1,14 +1,15 @@
 <?php
 
+// src/Repository/InvoiceRepository.php
+
 namespace App\Repository;
 
 use App\Entity\Invoice;
+use App\Entity\User;
+use App\Enum\InvoiceStatusEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Invoice>
- */
 class InvoiceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +17,32 @@ class InvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoice::class);
     }
 
-//    /**
-//     * @return Invoice[] Returns an array of Invoice objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Invoice[]
+     */
+    public function findUnpaidForUser(User $user): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.client = :user')
+            ->andWhere('i.status IN (:unpaidStatuses)')
+            ->setParameter('user', $user)
+            ->setParameter('unpaidStatuses', [
+                InvoiceStatusEnum::PENDING->value,
+                InvoiceStatusEnum::OVERDUE->value
+            ])
+            ->orderBy('i.dueAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Invoice
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findLatestInvoices(User $user, int $maxResults = 5): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.client = :user')
+            ->setParameter('user', $user)
+            ->orderBy('i.issuedAt', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
 }

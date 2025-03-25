@@ -1,14 +1,15 @@
 <?php
 
+// src/Repository/ProjectRepository.php
+
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\User;
+use App\Enum\StatusEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Project>
- */
 class ProjectRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +17,33 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-//    /**
-//     * @return Project[] Returns an array of Project objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Project[]
+     */
+    public function findByClientWithStatus(User $user, ?StatusEnum $status = null): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->andWhere('p.client = :user')
+            ->setParameter('user', $user)
+            ->orderBy('p.createdAt', 'DESC');
 
-//    public function findOneBySomeField($value): ?Project
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($status) {
+            $qb->andWhere('p.status = :status')
+                ->setParameter('status', $status->value);
+        }
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    public function findRecentProjects(User $user, int $maxResults = 5): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.client = :user')
+            ->setParameter('user', $user)
+            ->orderBy('p.updatedAt', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -6,6 +6,7 @@ use App\Enum\InvoiceStatusEnum;
 use App\Repository\InvoiceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 class Invoice
@@ -15,6 +16,7 @@ class Invoice
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['invoice:read'])]
     #[ORM\Column(length: 255)]
     private ?string $number = null;
 
@@ -26,9 +28,11 @@ class Invoice
     #[ORM\JoinColumn(nullable: false)]
     private ?Project $project = null;
 
+    #[Groups(['invoice:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $amount = null;
 
+    #[Groups(['invoice:read'])]
     #[ORM\Column(
         type: 'string',
         length: 20,
@@ -36,6 +40,7 @@ class Invoice
     )]
     private ?InvoiceStatusEnum $status = null;
 
+    #[Groups(['invoice:read'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $issuedAt = null;
 

@@ -1,6 +1,14 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
-import HelloReact from './js/components/HelloReact';
+import App from './src/App';
 
-const root = createRoot(document.getElementById('root'));
-root.render(<HelloReact />);
+try {
+    const root = createRoot(document.getElementById('root'));
+    root.render(<App />);
+} catch (error) {
+    console.error('Erreur React:', error);
+    document.getElementById('root').innerHTML = `
+    <h1 style="color:red;padding:20px;">
+      Erreur d'initialisation : ${error.message}
+    </h1>
+  `;
+}

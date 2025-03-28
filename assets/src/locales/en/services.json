@@ -1,0 +1,37 @@
+{
+  "title": "Our Services",
+  "subtitle": "Tailored solutions for your digital needs",
+  "all": "All",
+  "web": "Web Development",
+  "mobile": "Mobile Apps",
+  "design": "Design",
+  "see_details": "Discover more",
+  "from_price": "From {{price}}€",
+  "includes": "This service includes:",
+  "features": {
+    "web": [
+      "Custom website development",
+      "E-commerce integration",
+      "SEO optimization",
+      "Responsive design"
+    ],
+    "mobile": [
+      "iOS & Android apps",
+      "Cross-platform development",
+      "API integration",
+      "App store deployment"
+    ],
+    "design": [
+      "UI/UX design",
+      "Brand identity",
+      "Prototyping",
+      "User testing"
+    ]
+  },
+  "cta": {
+    "start_project": "Start your project",
+    "contact_us": "Contact our team"
+  },
+  "testimonials": "Client success stories",
+  "loading": "Loading services..."
+}

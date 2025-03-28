@@ -1,0 +1,17 @@
+{# templates/react/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}TrivialApps - {{ page_title|default('Accueil') }}{% endblock %}
+
+{% block body_class %}react-app{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div id="react-modals"></div> {# Pour les modales React #}
+{% endblock %}
+
+{% block seo %}
+    {{ parent() }}
+    {# SEO spécifique à la page #}
+    <meta property="og:title" content="TrivialApps - {{ page_title|default('Accueil') }}">
+{% endblock %}

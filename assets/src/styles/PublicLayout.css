@@ -1,0 +1,7 @@
+/* assets/src/styles/PublicLayout.css */
+.public-layout {
+    min-height: 100vh;
+    background-image: url("../../images/hero-bg.webp");
+    background-size: cover;
+    background-position: center;
+}

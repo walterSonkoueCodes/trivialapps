@@ -1,0 +1,26 @@
+.expert-header {
+  background: linear-gradient(135deg, #2A2D43 0%, #F05D5E 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+
+  .MuiAvatar-root {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+}
+
+.skill-chip {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(42, 45, 67, 0.2);
+  }
+}
+
+.timeline-item {
+  .MuiTimelineDot-root {
+    box-shadow: 0 0 0 4px rgba(240, 93, 94, 0.2);
+  }
+}

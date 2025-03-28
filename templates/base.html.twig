@@ -1,0 +1,87 @@
+{# templates/base.html.twig #}
+
+<!DOCTYPE html>
+<html lang="fr" data-theme="{{ app.user and app.user.darkMode ? 'dark' : 'light' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TrivialApps - Votre partenaire digital{% endblock %}</title>
+
+    {# Webpack Encore #}
+    {{ encore_entry_link_tags('app') }}
+
+    {# Préchargement des assets critiques #}
+    {# <link rel="preload" href="{{ asset('build/fonts/inter.woff2') }}" as="font" type="font/woff2" crossorigin> #}
+
+    <script>
+        window.REACT_APP_API_URL = "{{ app.request.getSchemeAndHttpHost() }}/api";
+        window.REACT_APP_ENV = "{{ app.environment }}";
+    </script>
+
+    {# Configuration du thème #}
+    <script>
+        document.documentElement.setAttribute('data-theme',
+            localStorage.getItem('theme') ||
+            '{{ app.user and app.user.darkMode ? 'dark' : 'light' }}'
+        );
+    </script>
+
+    {# Balises SEO #}
+    {% block seo %}
+        <meta name="description" content="Plateforme professionnelle de gestion de projets digitaux - Développement web, applications mobiles et design sur mesure">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="{{ absolute_url(asset('build/og-image.jpg')) }}">
+    {% endblock %}
+
+    {# Styles inline critiques #}
+    <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: {{ app.user and app.user.darkMode ? '#121212' : '#F4F4F9' }};
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<div class="loading-overlay">
+    <div class="loader"></div>
+</div>
+
+{% block body %}
+    {# Contenu principal géré par React #}
+    <div id="root"></div>
+{% endblock %}
+
+{# Scripts Webpack Encore #}
+{{ encore_entry_script_tags('app') }}
+
+{# Initialisation de l'application #}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            document.querySelector('.loading-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.querySelector('.loading-overlay').remove();
+            }, 300);
+        }, 500);
+    });
+</script>
+
+{# Fallback pour JavaScript désactivé #}
+<noscript>
+    <div class="noscript-warning">
+        <h1>JavaScript requis</h1>
+        <p>Notre application nécessite JavaScript pour fonctionner correctement.</p>
+        <p>Veuillez l'activer dans les paramètres de votre navigateur.</p>
+    </div>
+</noscript>
+</body>
+</html>

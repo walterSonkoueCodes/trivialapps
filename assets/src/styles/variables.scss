@@ -1,0 +1,138 @@
+// src/styles/_variables.scss
+
+/* ================ *
+ * DESIGN TOKENS    *
+ * ================ */
+
+// 1. COULEURS
+// -------------
+$color-palette: (
+  // Primaire
+        primary-100: #FFE6E6,
+        primary-200: #F05D5E, // Couleur d'accent principale
+        primary-300: #D04A4B,
+
+  // Secondaire
+        secondary-100: #E8E9F3,
+        secondary-200: #2A2D43, // Bleu foncé
+        secondary-300: #1A1C2B,
+
+  // Neutres
+        neutral-100: #FFFFFF,
+        neutral-200: #F4F4F9, // Background light
+        neutral-300: #E0E0E8,
+        neutral-700: #6B6D7C,
+        neutral-900: #121212, // Background dark
+
+  // Status
+        success: #4CAF50,
+        warning: #FFC107,
+        error: #F44336,
+        info: #2196F3
+);
+
+// 2. TYPOGRAPHIE
+// --------------
+$font-family: (
+        heading: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+        body: "'Open Sans', 'Helvetica Neue', sans-serif",
+        mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace"
+);
+
+$font-size: (
+        base: 16px,
+        h1: 2.488rem,   // ≈ 39.8px
+        h2: 2.074rem,   // ≈ 33.2px
+        h3: 1.728rem,   // ≈ 27.6px
+        h4: 1.44rem,    // ≈ 23.0px
+        h5: 1.2rem,     // ≈ 19.2px
+        small: 0.833rem // ≈ 13.3px
+);
+
+// 3. ESPACEMENTS
+// --------------
+$spacing-unit: 8px;
+$spacing: (
+        xxxs: $spacing-unit * 0.25, // 2px
+        xxs:  $spacing-unit * 0.5,  // 4px
+        xs:   $spacing-unit,         // 8px
+        sm:   $spacing-unit * 2,    // 16px
+        md:   $spacing-unit * 3,    // 24px
+        lg:   $spacing-unit * 4,    // 32px
+        xl:   $spacing-unit * 6,    // 48px
+        xxl:  $spacing-unit * 8     // 64px
+);
+
+// 4. OMBRES
+// ---------
+$box-shadow: (
+        low: 0 2px 4px rgba(0, 0, 0, 0.1),
+        medium: 0 4px 12px rgba(0, 0, 0, 0.15),
+        high: 0 8px 24px rgba(0, 0, 0, 0.2)
+);
+
+// 5. POINTS DE RUPTURE
+// -------------------
+$breakpoints: (
+        mobile: 480px,   // 30em
+        tablet: 768px,   // 48em
+        desktop: 1024px, // 64em
+        xl: 1280px       // 80em
+);
+
+// 6. TRANSITIONS
+// --------------
+$transition: (
+        base: 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        fast: 0.15s ease-in-out,
+        slow: 0.5s ease-out
+);
+
+// 7. Z-INDEX
+// ----------
+$z-index: (
+        modal: 1000,
+        header: 100,
+        dropdown: 50,
+        base: 1
+);
+
+/* ================ *
+ * THEMING          *
+ * ================ */
+@mixin dark-mode {
+  --color-background: #{map-get($color-palette, neutral-900)};
+  --color-surface: #{map-get($color-palette, secondary-300)};
+  --color-text: #{map-get($color-palette, neutral-100)};
+}
+
+@mixin light-mode {
+  --color-background: #{map-get($color-palette, neutral-200)};
+  --color-surface: #{map-get($color-palette, neutral-100)};
+  --color-text: #{map-get($color-palette, secondary-200)};
+}
+
+/* ================ *
+ * UTILITAIRES      *
+ * ================ */
+// Gradients
+$gradient-primary: linear-gradient(
+                135deg,
+                map-get($color-palette, primary-200) 0%,
+                map-get($color-palette, primary-300) 100%
+);
+
+// Status colors
+@mixin status-colors {
+  &.success { color: map-get($color-palette, success); }
+  &.warning { color: map-get($color-palette, warning); }
+  &.error { color: map-get($color-palette, error); }
+  &.info { color: map-get($color-palette, info); }
+}
+
+// Responsive mixin
+@mixin respond-to($breakpoint) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}

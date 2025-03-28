@@ -1,0 +1,21 @@
+/* assets/src/styles/global.css */
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode {
+    background-color: #1f1f1f;
+    color: #f5f5f5;
+}
+
+/* Styles pour la NavBar et le logo */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.logo {
+    height: 40px;
+}

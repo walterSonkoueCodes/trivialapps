@@ -1,0 +1,37 @@
+{
+  "title": "Unsere Dienstleistungen",
+  "subtitle": "Maßgeschneiderte Lösungen für Ihre digitalen Bedürfnisse",
+  "all": "Alle",
+  "web": "Webentwicklung",
+  "mobile": "Mobile Apps",
+  "design": "Design",
+  "see_details": "Details anzeigen",
+  "from_price": "Ab {{price}}€",
+  "includes": "Dieser Service beinhaltet:",
+  "features": {
+    "web": [
+      "Individuelle Website-Entwicklung",
+      "E-Commerce-Integration",
+      "SEO-Optimierung",
+      "Responsives Design"
+    ],
+    "mobile": [
+      "iOS & Android Apps",
+      "Cross-Platform Entwicklung",
+      "API-Integration",
+      "App Store Veröffentlichung"
+    ],
+    "design": [
+      "UI/UX Design",
+      "Markenidentität",
+      "Prototyping",
+      "Benutzertests"
+    ]
+  },
+  "cta": {
+    "start_project": "Projekt starten",
+    "contact_us": "Team kontaktieren"
+  },
+  "testimonials": "Kunden-Erfolgsgeschichten",
+  "loading": "Dienste werden geladen..."
+}

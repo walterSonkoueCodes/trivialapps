@@ -125,10 +125,10 @@ export default function ExpertDetailPage() {
         const fetchExpert = async () => {
             try {
                 const response = await ApiService.get(`api/experts/${id}`);
-                console.log("expert datas: ", response.data);
+                // console.log("expert datas: ", response.data);
+                // console.log("user-expert datas: ", response.data.user);
                 setExpert({
                     ...response.data,
-                    // Transformez les données JSON en objets utilisables
                     experiences: Array.isArray(response.data.experiences)
                         ? response.data.experiences
                         : [],
@@ -153,7 +153,7 @@ export default function ExpertDetailPage() {
 
     if (error) return (
         <Alert severity="error" sx={{ m: 2 }}>
-            Erreur lors du chargement des données : {error}
+            Error loading data : {error}
         </Alert>
     );
 
@@ -185,7 +185,7 @@ export default function ExpertDetailPage() {
 
                     <Grid item xs={12} md={9}>
                         <Typography variant="h3" gutterBottom sx={{ fontWeight: 700 }}>
-                            {expert.full_name}
+                            {expert.user.full_name}
                         </Typography>
 
                         <Stack direction="row" spacing={2} alignItems="center" mb={2}>
@@ -235,7 +235,7 @@ export default function ExpertDetailPage() {
                         <Stack spacing={2}>
                             <Stack direction="row" spacing={2} alignItems="center">
                                 <Email color="primary" />
-                                <Typography>{expert.email}</Typography>
+                                <Typography>{expert.user.email}</Typography>
                             </Stack>
 
                             <Stack direction="row" spacing={2} alignItems="center">

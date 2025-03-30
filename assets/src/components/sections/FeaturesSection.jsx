@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 
 const features = [
     {
-        title: "Développement Sur-Mesure",
+        title: "Custom Development",
         icon: "💻",
-        description: "Des solutions personnalisées adaptées à vos besoins spécifiques"
+        description: "Tailored solutions designed to meet your specific needs"
     },
     {
-        title: "Design Innovant",
+        title: "Innovative Design",
         icon: "🎨",
-        description: "Des interfaces modernes et intuitives pour une expérience utilisateur optimale"
+        description: "Modern and intuitive interfaces for an optimal user experience"
     },
     {
-        title: "Support 24/7",
+        title: "24/7 Support",
         icon: "🛠️",
-        description: "Une équipe disponible en permanence pour vous accompagner"
+        description: "A dedicated team available at all times to support you"
     }
 ];
 
@@ -70,7 +70,7 @@ export default function FeaturesSection() {
                     gutterBottom
                     sx={{ mb: 6 }}
                 >
-                    Pourquoi nous choisir ?
+                    Why Choose Us?
                 </Typography>
 
                 <Grid container spacing={4}>

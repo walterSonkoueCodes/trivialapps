@@ -20,6 +20,7 @@ class Expert
     private ?int $id = null;
 
     #[ORM\OneToOne(inversedBy: 'expertProfile', targetEntity: User::class, cascade: ['persist', 'remove'])]
+    #[Groups(['expert:read'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

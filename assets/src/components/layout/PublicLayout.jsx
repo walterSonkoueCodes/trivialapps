@@ -193,7 +193,7 @@ const PublicLayout = () => {
                                 TrivialApps
                             </Typography>
                             <Typography variant="body2">
-                                Votre partenaire en développement digital
+                                Your partner in digital development
                             </Typography>
                         </Grid>
                         <Grid item xs={12} md={4}>
@@ -206,16 +206,16 @@ const PublicLayout = () => {
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <Typography variant="h6" gutterBottom>
-                                Légal
+                                Legal
                             </Typography>
                             <NavLink to="/legal">
-                                Mentions légales
+                                Legal information
                             </NavLink>
                         </Grid>
                     </Grid>
                     <Box sx={{ mt: 4, pt: 2, borderTop: `1px solid ${theme.palette.divider}` }}>
                         <Typography variant="body2" align="center">
-                            © {new Date().getFullYear()} TrivialApps. Tous droits réservés.
+                            © {new Date().getFullYear()} TrivialApps. All rights reserved.
                         </Typography>
                     </Box>
                 </Container>

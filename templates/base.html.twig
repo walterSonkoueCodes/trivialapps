@@ -1,11 +1,11 @@
 {# templates/base.html.twig #}
 
 <!DOCTYPE html>
-<html lang="fr" data-theme="{{ app.user and app.user.darkMode ? 'dark' : 'light' }}">
+<html lang="en" data-theme="{{ app.user and app.user.darkMode ? 'dark' : 'light' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}TrivialApps - Votre partenaire digital{% endblock %}</title>
+    <title>{% block title %}TrivialApps - Your digital partner{% endblock %}</title>
 
     {# Webpack Encore #}
     {{ encore_entry_link_tags('app') }}
@@ -28,7 +28,7 @@
 
     {# Balises SEO #}
     {% block seo %}
-        <meta name="description" content="Plateforme professionnelle de gestion de projets digitaux - Développement web, applications mobiles et design sur mesure">
+        <meta name="description" content="Professional digital project management platform - Web development, mobile applications and custom design’.>
         <meta property="og:type" content="website">
         <meta property="og:image" content="{{ absolute_url(asset('build/og-image.jpg')) }}">
     {% endblock %}
@@ -79,8 +79,8 @@
 <noscript>
     <div class="noscript-warning">
         <h1>JavaScript requis</h1>
-        <p>Notre application nécessite JavaScript pour fonctionner correctement.</p>
-        <p>Veuillez l'activer dans les paramètres de votre navigateur.</p>
+        <p>Our application requires JavaScript to function correctly.</p>
+        <p>Please activate it in your browser settings.</p>
     </div>
 </noscript>
 </body>

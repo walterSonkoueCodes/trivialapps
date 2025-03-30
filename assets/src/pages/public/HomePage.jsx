@@ -10,7 +10,6 @@ import {
     Skeleton
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ApiService } from '../../api/apiService';
 import ErrorDialog from '../../components/ui/ErrorDialog';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '../../components/sections/HeroSection';
@@ -61,41 +60,11 @@ export default function HomePage() {
 
     return (
         <Box sx={{ overflowX: 'hidden' }}>
-            <HeroSection />
+            <HeroSection isAuthenticated = { isAuthenticated }/>
             <FeaturesSection />
 
             <Container maxWidth="lg" sx={{ py: 8 }}>
                 <Grid container spacing={6}>
-                    <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={fadeIn}
-                        >
-                            <Typography variant="h2" gutterBottom>
-                                {isAuthenticated ? 'Welcome to TrivialApps' : 'Create your digital project'}
-                            </Typography>
-                            <Typography variant="h5" color="textSecondary" paragraph>
-                                {isAuthenticated
-                                    ? 'Manage your projects and invoices with ease'
-                                    : 'Tailor-made solutions for your business'}
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                size="large"
-                                component={motion.button}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                href={isAuthenticated ? "/client-dashboard" : "/login"}
-                                sx={{
-                                    mr: isAuthenticated ? 2 : 0,
-                                    mb: { xs: 2, sm: 0 }
-                                }}
-                            >
-                                {isAuthenticated ? 'Go to Dashboard' : 'Get Started'}
-                            </Button>
-                        </motion.div>
-                    </Grid>
 
                     {/* Services Section with Loading State */}
                     <Grid item xs={12}>

@@ -61,6 +61,8 @@ class ExpertRepository extends ServiceEntityRepository
     public function findExpertWithDetails(int $id): ?Expert
     {
         return $this->createQueryBuilder('e')
+            ->leftJoin('e.user', 'u')           // Ajout du user
+            ->addSelect('u')
             ->leftJoin('e.projects', 'p')
             ->addSelect('p')
             ->leftJoin('p.client', 'c')
@@ -74,6 +76,7 @@ class ExpertRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
 
     public function findPaginated(int $page, int $pageSize): array
     {

@@ -37,6 +37,7 @@ security:
         ROLE_ADMIN: ROLE_EXPERT
         ROLE_EXPERT: ROLE_CLIENT
         ROLE_CLIENT: ROLE_USER
+        PUBLIC_ACCESS: PUBLIC_ACCESS
 
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }

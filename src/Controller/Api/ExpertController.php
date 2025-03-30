@@ -51,17 +51,20 @@ class ExpertController extends AbstractController
         $expert = $this->expertRepository->findExpertWithDetails($id);
 
         if (!$expert) {
-            throw $this->createNotFoundException('Expert not found');
+            return $this->json(['error' => 'Expert not found'], 404);
         }
 
-        return $this->json($expert, context: [
+        return $this->json($expert, 200, [], [
             'groups' => [
                 'expert:read',
+                'user:read',
                 'project:read',
                 'invoice:read',
-                'user:read',
-                'service:detail'
-            ]
+                'service:detail',
+            ],
+            'circular_reference_handler' => function ($object) {
+                return $object->getId(); // Ou tout autre identifiant unique
+            }
         ]);
     }
 }

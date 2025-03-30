@@ -1,0 +1,13 @@
+# render.yaml
+services:
+  - type: web
+    name: trivialapps
+    env: php
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      yarn install
+      yarn build
+    startCommand: php -S 0.0.0.0:10000 -t public
+    plan: free
+    region: frankfurt
+    autoDeploy: true

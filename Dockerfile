@@ -1,13 +1,9 @@
 FROM php:8.2-apache
 
-# Installer Node.js 20.x au lieu de la version par défaut
-RUN apt-get update && apt-get install -y curl \
-    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs
-
-# Installer les autres dépendances système
+# Installer dépendances système
 RUN apt-get update && apt-get install -y \
-    git unzip zip libicu-dev libpq-dev libzip-dev libonig-dev \
+    git unzip zip curl libicu-dev libpq-dev libzip-dev libonig-dev \
+    nodejs npm \
     && docker-php-ext-install intl pdo pdo_mysql zip
 
 # Installer Composer
@@ -20,21 +16,23 @@ RUN a2enmod rewrite
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-# Installer les dépendances PHP
+# Installer les dépendances PHP (Symfony)
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Installer les dépendances JS (y compris Encore)
-RUN npm install -g npm@latest && \
-    npm install --legacy-peer-deps && \
-    npm install @symfony/webpack-encore --save-dev
+# Installer les dépendances JS
+ENV NODE_ENV=production
+RUN npm install --legacy-peer-deps
 
-# Build les assets
-RUN npm run build
+# 🛠 Force le lien de `encore` en CLI (clé du problème)
+RUN ln -s ./node_modules/.bin/encore /usr/local/bin/encore
 
-# Droits
+# ✅ Build avec le lien absolu
+RUN encore production --progress
+
+# Droits fichiers Symfony
 RUN chown -R www-data:www-data var public
 
-# Config Apache
+# Apache config pour .htaccess
 RUN echo '<Directory /var/www/html/public>\n\
     AllowOverride All\n\
 </Directory>' > /etc/apache2/conf-available/symfony.conf \

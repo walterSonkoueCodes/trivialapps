@@ -9,26 +9,26 @@ RUN apt-get update && apt-get install -y \
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Activer mod_rewrite Apache
+# Activer mod_rewrite
 RUN a2enmod rewrite
 
-# Copier le code
+# Copier le projet
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-# Installer PHP (Symfony) sans les scripts auto
+# Installer dépendances PHP
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Définir l’environnement JS
+# Build frontend
 ENV NODE_ENV=production
+RUN npm install --legacy-peer-deps
+RUN npm install @symfony/webpack-encore --save-dev
+RUN npm run build
 
-# ✅ Build avec le script `npm run build`
-RUN npm install --legacy-peer-deps && npm run build
-
-# Droits
+# Droits Symfony
 RUN chown -R www-data:www-data var public
 
-# Config Apache
+# Apache config
 RUN echo '<Directory /var/www/html/public>\n\
     AllowOverride All\n\
 </Directory>' > /etc/apache2/conf-available/symfony.conf \

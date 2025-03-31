@@ -1,4 +1,3 @@
-# render.yaml
 services:
   - type: web
     name: trivialapps
@@ -11,6 +10,5 @@ services:
         value: prod
       - key: APP_DEBUG
         value: 0
-      # Ajoute ici ta vraie URL de BDD Render si tu en as une :
-      # - key: DATABASE_URL
-      #   value: mysql://user:pass@host:3306/db
+      - key: DATABASE_URL
+        value: "pgsql://walter7:8RBiNn58Qdj16RSJWDX6Jpep9BTdpbki@dpg-cvkrjuruibrs73a5oa3g-a/trivialapps"

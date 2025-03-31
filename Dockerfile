@@ -9,24 +9,26 @@ RUN apt-get update && apt-get install -y \
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Activer mod_rewrite pour Symfony et React Router
+# Activer mod_rewrite Apache
 RUN a2enmod rewrite
 
-# Copier le projet Symfony complet
+# Copier le code
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-# Installer les dépendances PHP
+# Installer PHP (Symfony) sans les scripts auto
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Fix build Webpack (React via Encore)
+# Définir l’environnement JS
 ENV NODE_ENV=production
-RUN npm install --legacy-peer-deps && npx encore production --progress
 
-# Droits Symfony
+# ✅ Build avec le script `npm run build`
+RUN npm install --legacy-peer-deps && npm run build
+
+# Droits
 RUN chown -R www-data:www-data var public
 
-# Apache : autoriser les .htaccess dans public/
+# Config Apache
 RUN echo '<Directory /var/www/html/public>\n\
     AllowOverride All\n\
 </Directory>' > /etc/apache2/conf-available/symfony.conf \

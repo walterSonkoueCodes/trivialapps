@@ -1,0 +1,64 @@
+{# templates/emails/project_confirmation.html.twig #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .footer {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .highlight {
+            color: #0066cc;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="cid:logo" alt="TrivialApps Logo" class="logo">
+
+    <h2>Thank you for starting a new project with TrivialApps!</h2>
+
+    <p>Hello <strong>{{ user.fullName }}</strong>,</p>
+
+    <p>We have successfully received your request for the service <span class="highlight">{{ project.service.name }}</span>.</p>
+
+    <p>We are currently reviewing your selections and preparing the invoice. You will receive it shortly, and it will be available anytime from your personal dashboard.</p>
+
+    <p>If you requested a phone call, one of our experts will reach out to you soon to discuss further details and optimize your project delivery.</p>
+
+    <p>We look forward to helping you bring your project to life!</p>
+
+    <p>Warm regards,<br>
+        The TrivialApps Team</p>
+
+    <div class="footer">
+        &copy; {{ "now"|date("Y") }} TrivialApps. All rights reserved.
+    </div>
+</div>
+</body>
+</html>

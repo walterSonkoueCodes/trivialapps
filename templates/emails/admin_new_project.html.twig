@@ -1,0 +1,5 @@
+<h2>New project started</h2>
+<p><strong>Client:</strong> {{ user.fullName }} ({{ user.email }})</p>
+<p><strong>Service:</strong> {{ project.service.name }}</p>
+<p><strong>Deadline:</strong> {{ project.deadline ? project.deadline|date('Y-m-d') : 'N/A' }}</p>
+<p><strong>Invoice:</strong> {{ invoice.number }} — {{ invoice.amount }}€</p>

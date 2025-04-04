@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice - {{ project.title }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9fafb;
+            padding: 0;
+            margin: 0;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 32px 40px;
+            background: linear-gradient(135deg, #6b46c1 0%, #805ad5 100%);
+            color: white;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        .invoice-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .invoice-number {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .client-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 4px;
+        }
+
+        .client-detail {
+            margin: 4px 0;
+            color: #4b5563;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 30px 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-name {
+            font-weight: 500;
+        }
+
+        .feature-price {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .total-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .total-box {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 20px;
+            width: 300px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .total-label {
+            font-weight: 600;
+        }
+
+        .total-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: #6b46c1;
+        }
+
+        .footer {
+            padding: 24px 40px;
+            background: #f9fafb;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #e9d8fd;
+            color: #6b46c1;
+        }
+
+        .expert-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+<div class="invoice-container">
+    <div class="header">
+        <div>
+            <img src="{{ absolute_url(asset('images/logo.svg')) }}" alt="TrivialApps Logo" class="logo">
+        </div>
+        <div>
+            <h1 class="invoice-title">Invoice</h1>
+            <p class="invoice-number">#{{ invoice.number }}</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="grid">
+            <div class="card">
+                <h3 class="card-title">Client Information</h3>
+                <p class="client-name">{{ client.fullName }}</p>
+                <p class="client-detail">{{ client.email }}</p>
+                <p class="client-detail">{{ client.phone }}</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Invoice Details</h3>
+                <p class="client-detail"><strong>Date:</strong> {{ invoice.issuedAt|date('Y-m-d') }}</p>
+                <p class="client-detail"><strong>Due Date:</strong> {{ invoice.dueAt|date('Y-m-d') }}</p>
+                <p class="client-detail"><strong>Status:</strong> <span class="status-badge">{{ invoice.status.value }}</span></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Project Information</h3>
+            <p class="client-name">{{ project.title }}</p>
+            <p class="client-detail"><strong>Service:</strong> {{ project.service.name }}</p>
+
+            {% if project.expert %}
+                <div class="expert-info">
+                    <p class="client-detail"><strong>Assigned Expert:</strong> {{ project.expert.fullName }}</p>
+                    <p class="client-detail"><strong>Expert Email:</strong> {{ project.expert.email }}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>Selected Features</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for feature in features %}
+                <tr>
+                    <td class="feature-name">{{ feature.name }}</td>
+                    <td>{{ feature.description }}</td>
+                    <td class="feature-price">+{{ feature.price }} €</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2" style="text-align: right; font-weight: 600;">Base Price</td>
+                <td class="feature-price">{{ project.service.price }} €</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="total-container">
+            <div class="total-box">
+                <div class="total-row">
+                    <span class="total-label">Subtotal:</span>
+                    <span>{{ project.service.price }} €</span>
+                </div>
+                <div class="total-row">
+                    <span class="total-label">Additional Features:</span>
+                    <span>{{ total - project.service.price }} €</span>
+                </div>
+                <div class="divider" style="margin: 12px 0;"></div>
+                <div class="total-row">
+                    <span class="total-label">Total:</span>
+                    <span class="total-amount">{{ total }} €</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for choosing TrivialApps. Please make payment by the due date.</p>
+        <p>For any questions, contact us at support@trivialapps.com</p>
+    </div>
+</div>
+</body>
+</html>

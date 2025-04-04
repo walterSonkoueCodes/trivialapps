@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" style="background-color: transparent;">
+    <!-- Fond décoratif -->
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F05D5E" />
+            <stop offset="100%" stop-color="#2A2D43" />
+        </linearGradient>
+    </defs>
+
+    <!-- Éléments graphiques -->
+    <rect x="50" y="50" width="400" height="200" rx="20" fill="url(#grad1)" opacity="0.1" />
+
+    <!-- Icône de fichier brisé -->
+    <path d="M150,100 L200,100 L200,150 L150,150 Z" fill="#F05D5E" stroke="#2A2D43" stroke-width="2" />
+    <line x1="150" y1="150" x2="200" y2="100" stroke="#FF5252" stroke-width="3" stroke-dasharray="5,3" />
+
+    <!-- Icône de recherche -->
+    <circle cx="350" cy="120" r="30" fill="none" stroke="#2A2D43" stroke-width="2" />
+    <line x1="370" y1="140" x2="400" y2="170" stroke="#2A2D43" stroke-width="2" />
+
+    <!-- Éléments techniques -->
+    <g transform="translate(100, 180) scale(0.8)">
+        <rect x="0" y="0" width="60" height="20" rx="3" fill="#F05D5E" opacity="0.7" />
+        <rect x="70" y="0" width="40" height="20" rx="3" fill="#2A2D43" opacity="0.7" />
+        <rect x="120" y="0" width="80" height="20" rx="3" fill="#F05D5E" opacity="0.7" />
+    </g>
+
+    <!-- Texte stylisé -->
+    <text x="250" y="80" font-family="'Arial', sans-serif" font-size="24" text-anchor="middle" fill="#2A2D43">
+        <tspan x="250" dy="0">404</tspan>
+    </text>
+
+    <!-- Personnage perplexe -->
+    <circle cx="250" cy="150" r="20" fill="#FFD166" />
+    <circle cx="243" cy="145" r="2" fill="#2A2D43" />
+    <circle cx="257" cy="145" r="2" fill="#2A2D43" />
+    <path d="M240,160 Q250,170 260,160" fill="none" stroke="#2A2D43" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Éléments décoratifs -->
+    <g opacity="0.6">
+        <circle cx="80" cy="70" r="5" fill="#F05D5E" />
+        <circle cx="420" cy="230" r="7" fill="#2A2D43" />
+        <rect x="400" y="60" width="10" height="10" rx="2" transform="rotate(45 400 60)" fill="#F05D5E" />
+    </g>
+
+    <!-- Ombre portée -->
+    <ellipse cx="250" cy="290" rx="120" ry="10" fill="#000" opacity="0.05" />
+</svg>

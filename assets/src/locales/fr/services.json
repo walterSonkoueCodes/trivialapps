@@ -1,0 +1,37 @@
+{
+  "title": "Nos Services",
+  "subtitle": "Des solutions sur mesure pour vos besoins digitaux",
+  "all": "Tous",
+  "web": "Développement Web",
+  "mobile": "Applications Mobiles",
+  "design": "Design",
+  "see_details": "Voir les détails",
+  "from_price": "À partir de {{price}}€",
+  "includes": "Ce service comprend :",
+  "features": {
+    "web": [
+      "Développement de site sur mesure",
+      "Intégration e-commerce",
+      "Optimisation SEO",
+      "Design responsive"
+    ],
+    "mobile": [
+      "Applications iOS & Android",
+      "Développement multiplateforme",
+      "Intégration API",
+      "Publication sur les stores"
+    ],
+    "design": [
+      "Design UI/UX",
+      "Identité visuelle",
+      "Prototypage",
+      "Tests utilisateurs"
+    ]
+  },
+  "cta": {
+    "start_project": "Démarrer votre projet",
+    "contact_us": "Contacter notre équipe"
+  },
+  "testimonials": "Témoignages clients",
+  "loading": "Chargement des services..."
+}

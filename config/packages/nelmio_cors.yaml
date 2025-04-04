@@ -1,0 +1,17 @@
+nelmio_cors:
+    defaults:
+        origin_regex: true
+        allow_origin: ['https://localhost:8000'] # remplace par ton front local (React ?)
+        allow_credentials: true
+        allow_methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+        allow_headers: ['Content-Type', 'Authorization']
+        expose_headers: ['Link']
+        max_age: 3600
+
+    paths:
+        '^/api/':
+            allow_origin: ['https://localhost:8000']
+            allow_credentials: true
+            allow_headers: ['*']
+            allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+            max_age: 3600

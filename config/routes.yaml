@@ -1,0 +1,115 @@
+# config/routes.yaml
+
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+    # Exclure les routes API qui seront définies manuellement
+    exclude: ['../src/Controller/Api/']
+
+react_catch_all:
+    path: /{reactRoute}
+    controller: App\Controller\ReactController::index
+    requirements:
+        reactRoute: "^(?!api|_wdt|_profiler|build).+"
+    defaults:
+        reactRoute: null
+
+api_services_list:
+    path: /api/services
+    controller: App\Controller\Api\ServiceController::list
+    methods: GET
+
+api_service_detail:
+    path: /api/services/{id}
+    controller: App\Controller\Api\ServiceController::detail
+    methods: GET
+    requirements:
+        id: '\d+'  # Seulement les IDs numériques
+
+api_experts_list:
+    path: /api/experts
+    controller: App\Controller\Api\ExpertController::listExperts
+    methods: GET
+
+api_expert_details:
+    path: /api/experts/{id}
+    controller: App\Controller\Api\ExpertController::getExpertDetails
+    methods: GET
+    requirements:
+        id: '\d+'
+
+api_invoice_download:
+    path: /api/me/invoices/{id}/download
+    controller: App\Controller\Api\InvoiceController::downloadInvoice
+    methods: GET
+    requirements:
+        Id: '\d+'
+
+api_expert_dashboard:
+    path: /api/experts/dashboard/{userId}
+    controller: App\Controller\Api\ExpertController::expertDashboard
+    methods: GET
+    requirements:
+        userId: '\d+'
+
+
+
+api_me:
+    path: /api/me
+    controller: App\Controller\Api\UserController::me
+    methods: GET
+
+api_client_dashboard:
+    path: /api/clients/dashboard/{userId}
+    controller: App\Controller\Api\UserController::clientDashboard
+    methods: GET
+    requirements:
+        userId: '\d+'
+
+api_owner_dashboard:
+    path: /api/owner/dashboard/{userId}
+    controller: App\Controller\Api\OwnerController::ownerDashboard
+    methods: GET
+    requirements:
+        userId: '\d+'
+
+# Authentification JWT
+api_login:
+    path: /api/login
+    methods: POST
+    controller: lexik_jwt_authentication.controllers.authentication:login
+
+# Routes API sécurisées
+api_invoices:
+    path: /api/me/invoices
+    controller: App\Controller\Api\InvoiceController::getInvoices
+    methods: [GET]
+    defaults:
+        _format: json
+
+api_unpaid_invoices:
+    path: /api/me/invoices/unpaid
+    controller: App\Controller\Api\InvoiceController::getUnpaidInvoices
+    methods: [GET]
+    defaults:
+        _format: json
+
+# Inscription
+api_register:
+    path: /api/auth/register
+    controller: App\Controller\Api\AuthController::register
+    methods: POST
+
+# Confirmation email
+api_verify_email:
+    path: /api/auth/verify-email
+    controller: App\Controller\Api\AuthController::verifyEmail
+    methods: GET
+
+# resend Confirmation email
+api_resend_verification:
+    path: /api/auth/resend-verification
+    controller: App\Controller\Api\AuthController::resendVerification
+    methods: GET
